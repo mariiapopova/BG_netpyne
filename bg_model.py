@@ -144,22 +144,22 @@ netParams.importCellParams(
 netParams.renameCellParamsSec('pyr', 'soma_0', 'soma')  # rename imported section 'soma_0' to 'soma'
 
 #netParams.cellParams['pyr']['secs']['soma']['geom']['Ra'] = 150 #if want same Ra everywhere
-netParams.cellParams['pyr']['secs']['soma']['mechs']['hh'] = {}
+#netParams.cellParams['pyr']['secs']['soma']['mechs']['hh'] = {}
 #if want mechanisms like in fleming
-# netParams.cellParams['pyr']['secs']['soma']['mechs']['cortical_soma_i_leak'] = {}
-# netParams.cellParams['pyr']['secs']['soma']['mechs']['cortical_soma_i_na'] = {}
-# netParams.cellParams['pyr']['secs']['soma']['mechs']['cortical_soma_i_k'] = {}
-# netParams.cellParams['pyr']['secs']['soma']['mechs']['cortical_soma_i_m'] = {}
+netParams.cellParams['pyr']['secs']['soma']['mechs']['cortical_soma_i_leak'] = {}
+netParams.cellParams['pyr']['secs']['soma']['mechs']['cortical_soma_i_na'] = {}
+netParams.cellParams['pyr']['secs']['soma']['mechs']['cortical_soma_i_k'] = {}
+netParams.cellParams['pyr']['secs']['soma']['mechs']['cortical_soma_i_m'] = {}
 netParams.cellParams['pyr']['secs']['soma']['pointps']['SN'] = {'mod': 'SynNoise', 'f0': 0, 'f1': 0.3}
 netParams.cellParams['pyr']['secs']['soma']['threshold'] = -10 #?? tunable
 
-netParams.cellParams['pyr']['secs']['axon_0']['mechs']['hh'] = {}
+#netParams.cellParams['pyr']['secs']['axon_0']['mechs']['hh'] = {}
 #netParams.cellParams['pyr']['secs']['axon_0']['geom']['Ra'] = 150 #if want same Ra everywhere
 #if want mechanisms like in fleming, tunable
-# netParams.cellParams['pyr']['secs']['axon_0']['mechs']['cortical_axon_i_leak'] = {'g_l': 3.3e-5}#0.02}
-# netParams.cellParams['pyr']['secs']['axon_0']['mechs']['cortical_axon_i_na'] = {'g_Na': 4000e-4}#2800e-4}
-# netParams.cellParams['pyr']['secs']['axon_0']['mechs']['cortical_axon_i_kv'] = {'g_Kv': 20e-4}#5e-4}
-# netParams.cellParams['pyr']['secs']['axon_0']['mechs']['cortical_axon_i_kd'] = {'g_Kd': 0.015}#0.0072}
+netParams.cellParams['pyr']['secs']['axon_0']['mechs']['cortical_axon_i_leak'] = {'g_l': 3.3e-5}#0.02}
+netParams.cellParams['pyr']['secs']['axon_0']['mechs']['cortical_axon_i_na'] = {'g_Na': 4000e-4}#2800e-4}
+netParams.cellParams['pyr']['secs']['axon_0']['mechs']['cortical_axon_i_kv'] = {'g_Kv': 20e-4}#5e-4}
+netParams.cellParams['pyr']['secs']['axon_0']['mechs']['cortical_axon_i_kd'] = {'g_Kd': 0.015}#0.0072}
 
 #%% Create population
 pop_Size=10
@@ -273,20 +273,20 @@ netParams.popParams['Cort_pop'] = {
 }
 
 #check!! - modify upon healthy state
-netParams.popParams['Str_pop'] = {
-    "cellModel": "",
-    "cellType": 'Str',
-    'rate': 5,
-    'noise': 0, #check if needed
-    'start': 1, #check if needed
-    "numCells": pop_Size
-}
+# netParams.popParams['Str_pop'] = {
+#     "cellModel": "",
+#     "cellType": 'Str',
+#     'rate': 7,
+#     'noise': 0, #check if needed
+#     'start': 1, #check if needed
+#     "numCells": pop_Size
+# }
 
 #%% Add stimulus
 #check out amplitude again!!
-netParams.stimSourceParams['bias_gpe'] = {'type': 'IClamp', 'del': 0, 'dur': 1e12, 'amp':-0.009}# 0.04} #-0.009
-netParams.stimSourceParams['bias_gpi'] = {'type': 'IClamp', 'del': 0, 'dur': 1e12, 'amp': 0.006}#0.33} #0.006 #0.356
-netParams.stimSourceParams['bias_stn'] = {'type': 'IClamp', 'del': 0, 'dur': 1e12, 'amp': -0.125}#0} #-0.125 #0.6
+netParams.stimSourceParams['bias_gpe'] = {'type': 'IClamp', 'del': 0, 'dur': 1e12, 'amp':-0.017}# 0.04} #-0.009
+netParams.stimSourceParams['bias_gpi'] = {'type': 'IClamp', 'del': 0, 'dur': 1e12, 'amp': 0.04}#0.33} #0.006 #0.356
+netParams.stimSourceParams['bias_stn'] = {'type': 'IClamp', 'del': 0, 'dur': 1e12, 'amp': -0.24}#0} #-0.125 #0.6
 netParams.stimSourceParams['bias_inter'] = {'type': 'IClamp', 'del': 0, 'dur': 1e12, 'amp': 0.070} 
 netParams.stimSourceParams['bias_cort'] = {'type': 'IClamp', 'del': 0, 'dur': 1e12, 'amp': 0.245} 
 #no bias current for thalamus in original paper
@@ -458,5 +458,6 @@ cfg.hParams['v_init'] = -68
 #%% run
 sim.createSimulateAnalyze(netParams = netParams, simConfig = cfg)
 sim.analysis.plot2Dnet(include = ['GPe_pop','STN_pop', 'GPi_pop', 'Th_pop', 'Inter_pop', 'Cort_pop']);
-sim.analysis.plotSpikeStats();
+sim.analysis.plotSpikeStats(include = ['GPe_pop','STN_pop', 'GPi_pop', 'Th_pop','Str_pop'], saveFig=False);
 #sim.analysis.plotShape(includePre=[], includePost=['Cort_pop'], showSyns=False, figSize=(4,9), dist=0.8, showFig=True)
+#sim.analysis.plotRateSpectrogram(include=['GPi_pop']);
